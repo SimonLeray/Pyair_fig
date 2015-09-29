@@ -38,5 +38,3 @@ maxi       = None   # max de l'échelle, optionnel. Si = None, calculé auto
 
 ####### Statistiques : moy, [min - max] (True/False)
 stat = False
-
-#####################################################################
