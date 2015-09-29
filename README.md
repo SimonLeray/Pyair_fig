@@ -5,12 +5,11 @@ Python plotting from package PyAir
 PyAir is a python package developped by Lionel Roubeyrie. It provides facilities for the connection to the ISEO XAIR database, - and for getting values/informations - in the computation of Air Quality values for the French reglementation.
 
 Pyair_fig allows to use PyAir and plot output.
+
 Typycal usage :
 
-###################     Données d'entrées    ######################
-
-# Liste des polluants demandés [(famille, polluant)]
-# Exemple : [(NO2,('NO2_AIN','NO2_FON')),(TRS,'TRS_IPA')]
+##### Liste des polluants demandés [(famille, polluant)]
+##### Exemple : [(NO2,('NO2_AIN','NO2_FON')),(TRS,'TRS_IPA')]
 polluants = [(PM10,('PM10_PRE','PM10_HUG','PM10_FON','PM10_NIC','PM10_GAR','PM10_DAL','PM10_AIN','PM10_IPA'))]
 
 # Période, fréquence 
