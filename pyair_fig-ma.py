@@ -55,29 +55,30 @@ OMS     = {'NO2':40,'O3':100,'PM10':20,'PM25':10,'H2S':7}
 """ ATTENTION : vérif. si STATION de mesure dans le dict NOMS """
 
 pol = xr.liste_mesures(reseau='OZONE').MESURE
-polluants = [(O3,pol)]
+#polluants = [(O3,pol)]
 #polluants = [(PM10,('PM10_PRE','PM10_HUG','PM10_FON','PM10_NIC','PM10_GAR','PM10_DAL','PM10_AIN','PM10_IPA'))]
-#polluants = [(PM25,('PM25_PRE','PM25_VIC'))]
+polluants = [(SO2,('SO2_IPA','SO2_GAR'))]
 
 # Période, fréquence 
 debut = '2015-07-01'
 fin   = '2015-07-31'
 frequence = 'H'   # H,D,M,A
+mes_valides = 0.75  # Critère : 75 % de mesures valide pour moyenner
 
 # Activation de la moyenne glissante, max journalier (True/False)
-GLISSANT       = True
+GLISSANT       = False
 sur            = 8        # X unités (QH, H, M, A) 
-MAX_JOURNALIER = True
-MAX_ANNUEL	   = False
+MAX_JOURNALIER = False
+MAX_ANNUEL     = False
 
 # Activation des seuils d'alerte et valeurs réglementaires (True/False)
 ALERTE     = False
-Valeur_lim = True
+Valeur_lim = False
 Obj_qual   = False
-Oms        = True
+Oms        = False
 
 #Paramètres figure
-figname    = 'O3-juillet2015'
+figname    = 'SO2'
 size       = 'L'    # L : Large , S : Small
 MARKERSIZE = 2      # Taille des points
 COL        = 2      # Nombre de colonne dans la légende
@@ -217,7 +218,6 @@ for famille, polluant in polluants:
     nom  = famille.get_nom()
     freq = famille.get_freq()
     df   = xr.get_mesures(mes = polluant, debut = debut, fin = fin, freq = freq)
-    df   = df.resample(frequence)
     
     # Moyenne glissante et max journalier
     if GLISSANT == True:
@@ -246,8 +246,11 @@ for famille, polluant in polluants:
         station = NOMS[labels['STATION'][0]]
         param   = NOMS[nom]
         label   = "%s - %s" % (param, station)
-        df[data<0] = 0     # Suppression des valeurs négatives
-        data.plot(ax = ax, 
+        
+        # Suppression des valeurs négatives
+        val = df[mes]
+        val[data<0]=0
+        val.plot(ax = ax, 
                 label           = label,
                 linestyle       = '-',
                 linewidth       = LINEWIDTH,
